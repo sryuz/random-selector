@@ -119,10 +119,8 @@ export class Wheel {
         const extraSpins = 6 + Math.floor(Math.random() * 3);
 
         // 计算目标停止角度（相对于 Canvas 的绝对位置）
-        // 指针在顶部（-π/2 位置），让目标扇形中心对准指针
-        // 添加随机偏移，让结果更自然（在扇形中间 60% 范围内）
-        const randomOffset = (Math.random() - 0.5) * sliceAngle * 0.6;
-        const targetSliceCenter = resultIndex * sliceAngle + sliceAngle / 2 + randomOffset;
+        // 指针在顶部（3π/2 位置），让目标扇形中心对准指针
+        const targetSliceCenter = resultIndex * sliceAngle + sliceAngle / 2;
         const targetStopAngle = (3 * Math.PI / 2) - targetSliceCenter;
 
         // 计算从当前角度顺时针旋转到目标位置需要的角度
