@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; media-src 'self'; img-src 'self' data:;">
+    <title>随机选择器</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="随机选择器">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 随机选择器</h1>
+            <p class="subtitle">让命运来帮你做决定</p>
+        </header>
+
+        <main>
+            <!-- 轮盘区域 -->
+            <div class="wheel-container">
+                <div class="pointer"></div>
+                <canvas id="wheel-canvas" width="400" height="400"></canvas>
+            </div>
+
+            <!-- 结果显示 -->
+            <div id="result" class="result-display">点击开始!</div>
+
+            <!-- 控制按钮 -->
+            <div class="controls">
+                <button id="start-btn" class="btn btn-primary">🎲 开始</button>
+                <button id="stop-btn" class="btn btn-secondary" disabled>⏹ 停止</button>
+            </div>
+
+            <!-- 选项编辑 -->
+            <div class="options-editor">
+                <h3>📝 选项设置</h3>
+                <div id="options-container" class="options-list">
+                    <!-- 动态生成的选项输入框 -->
+                </div>
+                <div class="options-actions">
+                    <button id="add-option" class="btn btn-small">➕ 添加选项</button>
+                    <button id="clear-all" class="btn btn-small btn-danger">🗑 清空全部</button>
+                </div>
+            </div>
+
+            <!-- 历史记录 -->
+            <details class="history-section">
+                <summary>📜 历史记录</summary>
+                <div id="history-container" class="history-list">
+                    <!-- 动态生成 -->
+                </div>
+                <button id="clear-history" class="btn btn-small">清空历史</button>
+            </details>
+        </main>
+
+        <!-- 音量控制 -->
+        <div class="audio-controls">
+            <label class="volume-control">
+                <span>🔊</span>
+                <input type="range" id="volume-slider" min="0" max="100" value="70">
+            </label>
+            <button id="mute-btn" class="btn-icon" title="静音">🔈</button>
+        </div>
+    </div>
+
+    <script type="module" src="scripts/app.js"></script>
+
+    <!-- PWA Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('SW registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('SW registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
