@@ -115,18 +115,29 @@ export class Wheel {
         const resultIndex = Math.floor(Math.random() * this.options.length);
         const sliceAngle = (2 * Math.PI) / this.options.length;
 
-        // 计算目标角度：至少转 5-8 圈 + 目标位置
-        const extraSpins = 5 + Math.floor(Math.random() * 3);
+        // 固定旋转圈数：6-8 圈，保证力度足够
+        const extraSpins = 6 + Math.floor(Math.random() * 3);
 
-        // 目标角度：让结果停在顶部指针位置
-        // 顶部指针在 -90度（即 3π/2）位置
-        const targetSliceCenter = resultIndex * sliceAngle + sliceAngle / 2;
-        const rotationToTarget = (2 * Math.PI - targetSliceCenter) + Math.PI / 2;
+        // 计算目标停止角度（相对于 Canvas 的绝对位置）
+        // 指针在顶部（-π/2 位置），让目标扇形中心对准指针
+        // 添加随机偏移，让结果更自然（在扇形中间 60% 范围内）
+        const randomOffset = (Math.random() - 0.5) * sliceAngle * 0.6;
+        const targetSliceCenter = resultIndex * sliceAngle + sliceAngle / 2 + randomOffset;
+        const targetStopAngle = (3 * Math.PI / 2) - targetSliceCenter;
 
-        this.targetAngle = this.angle +
-            extraSpins * 2 * Math.PI +
-            rotationToTarget +
-            (Math.random() - 0.5) * sliceAngle * 0.6; // 添加一点随机偏移
+        // 计算从当前角度顺时针旋转到目标位置需要的角度
+        // 归一化当前角度和目标停止角度到 [0, 2π)
+        const currentNorm = ((this.angle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+        const targetNorm = ((targetStopAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+
+        // 计算顺时针方向需要旋转的角度
+        let rotationToTarget = targetNorm - currentNorm;
+        if (rotationToTarget <= 0) {
+            rotationToTarget += 2 * Math.PI; // 确保顺时针至少转一点
+        }
+
+        // 目标角度 = 当前角度 + 固定圈数 + 到目标的旋转量
+        this.targetAngle = this.angle + extraSpins * 2 * Math.PI + rotationToTarget;
 
         this.animate(resultIndex);
     }

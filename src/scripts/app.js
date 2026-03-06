@@ -56,14 +56,6 @@ class RandomSelectorApp {
 
         // 静音按钮
         this.muteBtn.addEventListener('click', () => this.toggleMute());
-
-        // 键盘快捷键
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && !this.isSpinning) {
-                e.preventDefault();
-                this.startSpin();
-            }
-        });
     }
 
     // 初始化应用
