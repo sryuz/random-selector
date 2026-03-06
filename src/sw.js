@@ -7,8 +7,8 @@ const ASSETS_TO_CACHE = [
   './scripts/wheel.js',
   './scripts/audio.js',
   './manifest.json',
-  '../assets/icons/icon-192.png',
-  '../assets/icons/icon-512.png'
+  './assets/icons/icon-192.png',
+  './assets/icons/icon-512.png'
 ];
 
 // 安装事件 - 缓存静态资源
